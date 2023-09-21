@@ -92,6 +92,12 @@ function Login() {
             {selectedTab === 2 && <Auth0LoginTab />}
           </CardContent>
 
+          <div>
+            <Link className="font-normal" to="/forgot-password">
+              Forgot Password
+            </Link>
+          </div>
+
           <div className="flex flex-col items-center justify-center pb-32">
             <div>
               <span className="font-normal mr-8">Don't have an account?</span>

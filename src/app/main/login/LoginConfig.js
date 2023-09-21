@@ -1,5 +1,6 @@
 import { authRoles } from 'app/auth';
 import Login from './Login';
+import Login2Page from '../pages/auth/login-2/Login2Page';
 
 const LoginConfig = {
   settings: {
@@ -28,6 +29,7 @@ const LoginConfig = {
     {
       path: '/login',
       component: Login
+      //component: Login2Page
     }
   ]
 };

@@ -11,6 +11,8 @@ import { motion } from 'framer-motion';
 import { Controller, useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import * as yup from 'yup';
+import { testTalant } from 'app/auth/store/loginSlice';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   root: {}
@@ -37,8 +39,8 @@ function ForgotPasswordPage() {
 
   const { isValid, dirtyFields, errors } = formState;
 
-  function onSubmit() {
-    reset(defaultValues);
+  function onSubmit(model) {
+    testTalant(model);
   }
 
   return (

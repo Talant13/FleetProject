@@ -50,7 +50,7 @@ function ForgotPassword2Page() {
 
         <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0, transition: { delay: 0.2 } }}>
           <Typography className="text-32 sm:text-44 font-semibold leading-tight">
-            Welcome <br />
+            Welcomeeqwqwq <br />
             to the <br /> FUSE React!
           </Typography>
         </motion.div>
@@ -113,7 +113,7 @@ function ForgotPassword2Page() {
           </form>
 
           <div className="flex flex-col items-center justify-center pt-32 pb-24">
-            <Link className="font-normal" to="/pages/auth/login-2">
+            <Link className="font-normal" to="/login">
               Go back to login
             </Link>
           </div>

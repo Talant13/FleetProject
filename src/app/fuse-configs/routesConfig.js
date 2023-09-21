@@ -5,6 +5,8 @@ import CallbackConfig from 'app/main/callback/CallbackConfig';
 import DocumentationConfig from 'app/main/documentation/DocumentationConfig';
 import LoginConfig from 'app/main/login/LoginConfig';
 import LogoutConfig from 'app/main/logout/LogoutConfig';
+import ForgotPassword2PageConfig from 'app/main/pages/auth/forgot-password-2/ForgotPassword2PageConfig';
+import ForgotPasswordPageConfig from 'app/main/pages/auth/forgot-password/ForgotPasswordPageConfig';
 import pagesConfigs from 'app/main/pages/pagesConfigs';
 import RegisterConfig from 'app/main/register/RegisterConfig';
 import UserInterfaceConfig from 'app/main/user-interface/UserInterfaceConfig';
@@ -20,7 +22,9 @@ const routeConfigs = [
   LoginConfig,
   RegisterConfig,
   LogoutConfig,
-  CallbackConfig
+  CallbackConfig,
+  ForgotPassword2PageConfig,
+  ForgotPasswordPageConfig
 ];
 
 const routes = [

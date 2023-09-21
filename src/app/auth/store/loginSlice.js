@@ -19,6 +19,19 @@ export const submitLogin =
       });
   };
 
+export const testTalant = async form => {
+  const config = {
+    url: process.env.REACT_APP_FORGOT_PASSWORD,
+    handleCodeInApp: true
+  };
+  await firebaseService.auth
+    .sendPasswordResetEmail(form.email)
+    .then(() => {})
+    .catch(error => {});
+
+  console.log('hey', form);
+};
+
 export const submitLoginWithFireBase =
   ({ email, password }) =>
   async dispatch => {
