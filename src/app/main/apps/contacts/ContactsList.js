@@ -13,12 +13,12 @@ import { openEditContactDialog, selectContacts } from './store/contactsSlice';
 
 const formatData = vehicles =>
   vehicles.map(vehicle => {
-    const totalCost = `$${(vehicle.serviceCost + vehicle.fuelCost).toLocaleString()}`;
+    // const totalCost = `$${(vehicle.serviceCost + vehicle.fuelCost).toLocaleString()}`;
     return {
       ...vehicle,
-      isAssigned: vehicle.isAssigned ? 'YES' : 'NO',
-      totalCost,
-      millage: vehicle.millage.toLocaleString()
+      isAssigned: vehicle.isAssigned ? 'YES' : 'NO'
+      //totalCost
+      // millage: vehicle.millage.toLocaleString()
     };
   });
 
@@ -46,6 +46,10 @@ function ContactsList(props) {
       //   width: 64,
       //   sortable: false
       // },
+      // {
+      //   Header: 'Assign/Unassign',
+      //   className: 'font-medium'
+      // },
       {
         Header: 'Brand',
         accessor: 'brand',
@@ -66,29 +70,30 @@ function ContactsList(props) {
       // },
       {
         Header: 'Plate Number',
-        accessor: 'plateNumber',
-        sortable: true
-      },
-      {
-        Header: 'Assigned Status',
-        accessor: 'isAssigned',
-        sortable: true
-      },
-      {
-        Header: 'Vehicle Status',
-        accessor: 'vehicleStatus',
-        sortable: true
-      },
-      {
-        Header: 'Total Cost',
-        accessor: 'totalCost',
-        sortable: true
-      },
-      {
-        Header: 'Millage',
-        accessor: 'millage',
+        accessor: 'plate_number',
         sortable: true
       }
+
+      // {
+      //   Header: 'Assigned Status',
+      //   accessor: 'isAssigned',
+      //   sortable: true
+      // }
+      // {
+      //   Header: 'Vehicle Status',
+      //   accessor: 'vehicleStatus',
+      //   sortable: true
+      // },
+      // {
+      //   Header: 'Total Cost',
+      //   accessor: 'totalCost',
+      //   sortable: true
+      // },
+      // {
+      //   Header: 'Millage',
+      //   accessor: 'millage',
+      //   sortable: true
+      // }
 
       // {
       //   id: 'action',

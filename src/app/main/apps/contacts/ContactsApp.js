@@ -10,6 +10,7 @@ import ContactsList from './ContactsList';
 // import ContactsSidebarContent from './ContactsSidebarContent';
 import reducer from './store';
 import { getVehicles } from './store/contactsSlice';
+import { Button } from '@material-ui/core';
 // import { getUserData } from './store/userSlice';
 
 function ContactsApp(props) {
@@ -22,7 +23,6 @@ function ContactsApp(props) {
     dispatch(getVehicles(routeParams));
     // dispatch(getUserData());
   }, [dispatch, routeParams]);
-
   return (
     <>
       <FusePageSimple
@@ -35,7 +35,7 @@ function ContactsApp(props) {
         }}
         header={<ContactsHeader pageLayout={pageLayout} />}
         content={<ContactsList />}
-        // leftSidebarContent={<ContactsSidebarContent />}
+        //  leftSidebarContent={<ContactsSidebarContent />}
         sidebarInner
         ref={pageLayout}
         innerScroll

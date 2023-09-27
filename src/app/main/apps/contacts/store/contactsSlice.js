@@ -6,10 +6,11 @@ export const getVehicles = createAsyncThunk(
   'vehicle-list-app/vehicles/getContacts',
   async (routeParams, { getState }) => {
     routeParams = routeParams || getState().contactsApp.contacts.routeParams;
-    const response = await axios.get('/api/vehicle-list-app/vehicles', {
+    //
+    const response = await axios.get('https://mysite-t3la.onrender.com/team2/api/vehicles', {
       params: routeParams
     });
-    const data = await response.data;
+    const data = await response.data.data;
 
     return { data, routeParams };
   }
@@ -183,6 +184,7 @@ const contactsSlice = createSlice({
     // [removeContact.fulfilled]: (state, action) => contactsAdapter.removeOne(state, action.payload),
     [getVehicles.fulfilled]: (state, action) => {
       const { data, routeParams } = action.payload;
+      // console.log(action.payload, '<<<<<<');
       contactsAdapter.setAll(state, data);
       state.routeParams = routeParams;
       state.searchText = '';
