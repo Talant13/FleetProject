@@ -8,8 +8,12 @@ import { useMemo, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ContactsMultiSelectMenu from './ContactsMultiSelectMenu';
 import ContactsTable from './ContactsTable';
-// import { openEditContactDialog, removeContact, toggleStarredContact, selectContacts } from './store/contactsSlice';
-import { openEditContactDialog, selectContacts } from './store/contactsSlice';
+// import { removeContact, toggleStarredContact } from './store/contactsSlice';
+import { openEditContactDialog, selectContacts, openNewContactDialog } from './store/contactsSlice';
+import { Button } from '@material-ui/core';
+import { DragHandle } from '@material-ui/icons';
+import { hasBgRendering } from '@fullcalendar/react';
+import VehicleModal from './VehicleModal';
 
 const formatData = vehicles =>
   vehicles.map(vehicle => {
@@ -26,9 +30,16 @@ function ContactsList(props) {
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
   const searchText = useSelector(({ contactsApp }) => contactsApp.contacts.searchText);
+  const [isOpenAddVehicleModal, setIsOpenAddVehicleModal] = useState(false);
   // const user = useSelector(({ contactsApp }) => contactsApp.user);
 
   const [filteredData, setFilteredData] = useState(null);
+
+  useEffect(() => {}, isOpenAddVehicleModal);
+
+  function handleClick() {
+    setIsOpenAddVehicleModal(!isOpenAddVehicleModal);
+  }
 
   const columns = useMemo(
     () => [
@@ -62,68 +73,11 @@ function ContactsList(props) {
         className: 'font-medium',
         sortable: true
       },
-      // TODO: add Production Year
-      // {
-      //   Header: 'Production Year',
-      //   accessor: 'year',
-      //   sortable: true
-      // },
       {
         Header: 'Plate Number',
         accessor: 'plate_number',
         sortable: true
       }
-
-      // {
-      //   Header: 'Assigned Status',
-      //   accessor: 'isAssigned',
-      //   sortable: true
-      // }
-      // {
-      //   Header: 'Vehicle Status',
-      //   accessor: 'vehicleStatus',
-      //   sortable: true
-      // },
-      // {
-      //   Header: 'Total Cost',
-      //   accessor: 'totalCost',
-      //   sortable: true
-      // },
-      // {
-      //   Header: 'Millage',
-      //   accessor: 'millage',
-      //   sortable: true
-      // }
-
-      // {
-      //   id: 'action',
-      //   width: 128,
-      //   sortable: false,
-      //   Cell: ({ row }) => (
-      //     <div className="flex items-center">
-      //       <IconButton
-      //         onClick={ev => {
-      //           ev.stopPropagation();
-      //           dispatch(toggleStarredContact(row.original.id));
-      //         }}
-      //       >
-      //         {user.starred && user.starred.includes(row.original.id) ? (
-      //           <Icon className="text-yellow-700">star</Icon>
-      //         ) : (
-      //           <Icon>star_border</Icon>
-      //         )}
-      //       </IconButton>
-      //       {/* <IconButton
-      //         onClick={ev => {
-      //           ev.stopPropagation();
-      //           dispatch(removeContact(row.original.id));
-      //         }}
-      //       >
-      //         <Icon>delete</Icon>
-      //       </IconButton> */}
-      //     </div>
-      //   )
-      // }
     ],
     // eslint-disable-next-line
     [dispatch, contacts]
@@ -160,15 +114,14 @@ function ContactsList(props) {
 
   return (
     <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}>
-      <ContactsTable
-        columns={columns}
-        data={formattedData}
-        // onRowClick={(ev, row) => {
-        //   if (row) {
-        //     dispatch(openEditContactDialog(row.original));
-        //   }
-        // }}
-      />
+      <Button variant="outlined" color="secondary" onClick={() => handleClick()}>
+        Add new vehicle{' '}
+      </Button>
+      {/* <Button variant="outlined" color="secondary" onClick={dispatch(openNewContactDialog)}>
+        Add new vehicle{' '}
+      </Button> */}
+      <VehicleModal open={isOpenAddVehicleModal} handleClick={handleClick} />
+      <ContactsTable columns={columns} data={formattedData} />
     </motion.div>
   );
 }

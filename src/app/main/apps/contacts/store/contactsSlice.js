@@ -6,7 +6,6 @@ export const getVehicles = createAsyncThunk(
   'vehicle-list-app/vehicles/getContacts',
   async (routeParams, { getState }) => {
     routeParams = routeParams || getState().contactsApp.contacts.routeParams;
-    //
     const response = await axios.get('https://mysite-t3la.onrender.com/team2/api/vehicles', {
       params: routeParams
     });
@@ -15,6 +14,37 @@ export const getVehicles = createAsyncThunk(
     return { data, routeParams };
   }
 );
+
+export const addVehicle = async vehicleProp => {
+  // console.log(vehicleProp);
+  var myHeaders = new Headers();
+  myHeaders.append('Content-Type', 'application/json');
+  var raw = JSON.stringify(vehicleProp);
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+  };
+  fetch('https://mysite-t3la.onrender.com/team2/api/vehicles/', requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
+};
+
+// export const addVehicle = createAsyncThunk(
+//   'contactsApp/contacts/addVehicle',
+//   async (vehicle, { dispatch, getState }) => {
+//     const response = await axios.post('https://mysite-t3la.onrender.com/team2/api/vehicles/', { vehicle });
+
+//     const data = await response.data;
+
+//     //dispatch(getContacts());
+//     console.log(data);
+
+//     return data;
+//   }
+// );
 
 // export const addContact = createAsyncThunk(
 //   'contactsApp/contacts/addContact',
@@ -180,6 +210,7 @@ const contactsSlice = createSlice({
   extraReducers: {
     // [updateContact.fulfilled]: contactsAdapter.upsertOne,
     // [addContact.fulfilled]: contactsAdapter.addOne,
+    //[addVehicle.fulfilled]: vehicleAdapter.addOne,
     // [removeContacts.fulfilled]: (state, action) => contactsAdapter.removeMany(state, action.payload),
     // [removeContact.fulfilled]: (state, action) => contactsAdapter.removeOne(state, action.payload),
     [getVehicles.fulfilled]: (state, action) => {

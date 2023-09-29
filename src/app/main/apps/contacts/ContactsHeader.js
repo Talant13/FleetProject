@@ -77,11 +77,7 @@ function ContactsHeader(props) {
           </ThemeProvider>
         </div>
       </div>
-      <div className="ml-20">
-        <Button variant="outlined" color="secondary">
-          Add new vehicle{' '}
-        </Button>
-      </div>
+      <div className="ml-20"></div>
     </div>
   );
 }
