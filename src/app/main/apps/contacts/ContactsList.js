@@ -37,9 +37,9 @@ function ContactsList(props) {
 
   useEffect(() => {}, isOpenAddVehicleModal);
 
-  function handleClick() {
-    setIsOpenAddVehicleModal(!isOpenAddVehicleModal);
-  }
+  // function handleClick() {
+  //   setIsOpenAddVehicleModal(!isOpenAddVehicleModal);
+  // }
 
   const columns = useMemo(
     () => [
@@ -77,6 +77,13 @@ function ContactsList(props) {
         Header: 'Plate Number',
         accessor: 'plate_number',
         sortable: true
+      },
+      {
+        accessorFn: row => `${row.first_name} ${row.last_name}`,
+        id: 'driver',
+        Header: 'Driver',
+        sortable: true
+        // accessor: `driver.first_name, driver.last_name`
       }
     ],
     // eslint-disable-next-line
@@ -114,13 +121,13 @@ function ContactsList(props) {
 
   return (
     <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1, transition: { delay: 0.2 } }}>
-      <Button variant="outlined" color="secondary" onClick={() => handleClick()}>
-        Add new vehicle{' '}
-      </Button>
-      {/* <Button variant="outlined" color="secondary" onClick={dispatch(openNewContactDialog)}>
+      {/* <Button variant="outlined" color="secondary" onClick={() => handleClick()}>
         Add new vehicle{' '}
       </Button> */}
-      <VehicleModal open={isOpenAddVehicleModal} handleClick={handleClick} />
+      <Button variant="outlined" color="secondary" onClick={ev => dispatch(openNewContactDialog(ev))}>
+        Add new vehicle{' '}
+      </Button>
+      {/* <VehicleModal open={isOpenAddVehicleModal} handleClick={handleClick} /> */}
       <ContactsTable columns={columns} data={formattedData} />
     </motion.div>
   );

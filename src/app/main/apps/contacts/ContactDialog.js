@@ -9,6 +9,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import TextField from '@material-ui/core/TextField';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { useCallback, useEffect } from 'react';
@@ -17,35 +19,37 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import _ from '@lodash';
 import * as yup from 'yup';
+// import { addContact, closeNewContactDialog } from './store/contactsSlice';
 
-// import {
-//   removeContact,
-//   updateContact,
-//   addContact,
-//   closeNewContactDialog,
-//   closeEditContactDialog
-// } from './store/contactsSlice';
+import {
+  // removeContact,
+  // updateContact,
+  addContact,
+  closeNewContactDialog,
+  closeEditContactDialog
+} from './store/contactsSlice';
 
 const defaultValues = {
-  id: '',
-  name: '',
-  lastName: '',
-  avatar: 'assets/images/avatars/profile.jpg',
-  nickname: '',
-  company: '',
-  jobTitle: '',
-  email: '',
-  phone: '',
-  address: '',
-  birthday: '',
-  notes: ''
+  brand: '',
+  model: '',
+  manufacture_year: '',
+  color: '',
+  image_url: '',
+  plate_number: '',
+  engine_number: '',
+  fuel_type: 'diesel',
+  active: true
 };
 
 /**
  * Form Validation Schema
  */
 const schema = yup.object().shape({
-  name: yup.string().required('You must enter a name')
+  brand: yup.string().required('You must enter a name'),
+  plate_number: yup.string().required('You must enter a name'),
+  engine_number: yup.string().required('You must enter a name'),
+  image_url: yup.string().required('You must enter a name'),
+  fuel_type: yup.string().required('You must enter a name')
 });
 
 function ContactDialog(props) {
@@ -81,8 +85,8 @@ function ContactDialog(props) {
     if (contactDialog.type === 'new') {
       reset({
         ...defaultValues,
-        ...contactDialog.data,
-        id: FuseUtils.generateGUID()
+        ...contactDialog.data
+        // id: FuseUtils.generateGUID()
       });
     }
   }, [contactDialog.data, contactDialog.type, reset]);
@@ -108,6 +112,7 @@ function ContactDialog(props) {
    */
   function onSubmit(data) {
     if (contactDialog.type === 'new') {
+      console.log(data);
       dispatch(addContact(data));
     } else {
       dispatch(updateContact({ ...contactDialog.data, ...data }));
@@ -136,33 +141,33 @@ function ContactDialog(props) {
       <AppBar position="static" elevation={0}>
         <Toolbar className="flex w-full">
           <Typography variant="subtitle1" color="inherit">
-            {contactDialog.type === 'new' ? 'New Contact' : 'Edit Contact'}
+            {contactDialog.type === 'new' ? 'New Vehicle' : 'Edit Contact'}
           </Typography>
         </Toolbar>
-        <div className="flex flex-col items-center justify-center pb-24">
-          <Avatar className="w-96 h-96" alt="contact avatar" src={avatar} />
+        {/* <div className="flex flex-col items-center justify-center pb-24">
+          <Avatar className="w-96 h-96" alt="contact avatar" src="#" />
           {contactDialog.type === 'edit' && (
             <Typography variant="h6" color="inherit" className="pt-8">
               {name}
             </Typography>
           )}
-        </div>
+        </div> */}
       </AppBar>
       <form noValidate onSubmit={handleSubmit(onSubmit)} className="flex flex-col md:overflow-hidden">
         <DialogContent classes={{ root: 'p-24' }}>
           <div className="flex">
-            <div className="min-w-48 pt-20">
+            {/* <div className="min-w-48 pt-20">
               <Icon color="action">account_circle</Icon>
-            </div>
+            </div> */}
             <Controller
               control={control}
-              name="name"
+              name="brand"
               render={({ field }) => (
                 <TextField
                   {...field}
                   className="mb-24"
-                  label="Name"
-                  id="name"
+                  label="Brand"
+                  id="brand"
                   error={!!errors.name}
                   helperText={errors?.name?.message}
                   variant="outlined"
@@ -174,31 +179,16 @@ function ContactDialog(props) {
           </div>
 
           <div className="flex">
-            <div className="min-w-48 pt-20" />
-
             <Controller
               control={control}
-              name="lastName"
+              name="model"
               render={({ field }) => (
-                <TextField {...field} className="mb-24" label="Last name" id="lastName" variant="outlined" fullWidth />
+                <TextField {...field} className="mb-24" label="Model" id="model" variant="outlined" fullWidth />
               )}
             />
           </div>
 
-          <div className="flex">
-            <div className="min-w-48 pt-20">
-              <Icon color="action">star</Icon>
-            </div>
-            <Controller
-              control={control}
-              name="nickname"
-              render={({ field }) => (
-                <TextField {...field} className="mb-24" label="Nickname" id="nickname" variant="outlined" fullWidth />
-              )}
-            />
-          </div>
-
-          <div className="flex">
+          {/* <div className="flex">
             <div className="min-w-48 pt-20">
               <Icon color="action">phone</Icon>
             </div>
@@ -209,9 +199,9 @@ function ContactDialog(props) {
                 <TextField {...field} className="mb-24" label="Phone" id="phone" variant="outlined" fullWidth />
               )}
             />
-          </div>
+          </div> */}
 
-          <div className="flex">
+          {/* <div className="flex">
             <div className="min-w-48 pt-20">
               <Icon color="action">email</Icon>
             </div>
@@ -222,9 +212,9 @@ function ContactDialog(props) {
                 <TextField {...field} className="mb-24" label="Email" id="email" variant="outlined" fullWidth />
               )}
             />
-          </div>
+          </div> */}
 
-          <div className="flex">
+          {/* <div className="flex">
             <div className="min-w-48 pt-20">
               <Icon color="action">domain</Icon>
             </div>
@@ -235,9 +225,9 @@ function ContactDialog(props) {
                 <TextField {...field} className="mb-24" label="Company" id="company" variant="outlined" fullWidth />
               )}
             />
-          </div>
+          </div> */}
 
-          <div className="flex">
+          {/* <div className="flex">
             <div className="min-w-48 pt-20">
               <Icon color="action">work</Icon>
             </div>
@@ -256,21 +246,21 @@ function ContactDialog(props) {
                 />
               )}
             />
-          </div>
+          </div> */}
 
           <div className="flex">
-            <div className="min-w-48 pt-20">
+            {/* <div className="min-w-48 pt-20">
               <Icon color="action">cake</Icon>
-            </div>
+            </div> */}
             <Controller
               control={control}
-              name="birthday"
+              name="manufacture_year"
               render={({ field }) => (
                 <TextField
                   {...field}
                   className="mb-24"
-                  id="birthday"
-                  label="Birthday"
+                  id="manufacture_year"
+                  label="Manufacture year"
                   type="date"
                   InputLabelProps={{
                     shrink: true
@@ -283,19 +273,99 @@ function ContactDialog(props) {
           </div>
 
           <div className="flex">
-            <div className="min-w-48 pt-20">
+            {/* <div className="min-w-48 pt-20">
               <Icon color="action">home</Icon>
-            </div>
+            </div> */}
             <Controller
               control={control}
-              name="address"
+              name="color"
               render={({ field }) => (
-                <TextField {...field} className="mb-24" label="Address" id="address" variant="outlined" fullWidth />
+                <TextField {...field} className="mb-24" label="Color" id="color" variant="outlined" fullWidth />
               )}
             />
           </div>
 
           <div className="flex">
+            {/* <div className="min-w-48 pt-20">
+              <Icon color="action">star</Icon>
+            </div> */}
+            <Controller
+              control={control}
+              name="plate_number"
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  className="mb-24"
+                  label="Plate Number"
+                  id="plate_number"
+                  variant="outlined"
+                  fullWidth
+                  required
+                />
+              )}
+            />
+          </div>
+
+          <div className="flex">
+            {/* <div className="min-w-48 pt-20">
+              <Icon color="action">star</Icon>
+            </div> */}
+            <Controller
+              control={control}
+              name="engine_number"
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  className="mb-24"
+                  label="Engine number"
+                  id="engine_number"
+                  variant="outlined"
+                  fullWidth
+                  required
+                />
+              )}
+            />
+          </div>
+
+          <div className="flex">
+            {/* <div className="min-w-48 pt-20">
+              <Icon color="action">star</Icon>
+            </div> */}
+            <Controller
+              control={control}
+              name="image_url"
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  className="mb-24"
+                  label="Image"
+                  id="image_url"
+                  variant="outlined"
+                  fullWidth
+                  required
+                />
+              )}
+            />
+          </div>
+
+          <div className="flex">
+            <Controller
+              control={control}
+              name="fuel_type"
+              render={({ field }) => (
+                <Select {...field} className="mb-24" id="fuel_type" required>
+                  <MenuItem value="gasoline" selected>
+                    Gasoline
+                  </MenuItem>
+                  <MenuItem value="diesel">Diesel</MenuItem>
+                  <MenuItem value="natural_gas">Natural Gas</MenuItem>
+                  <MenuItem value="propane">Propane</MenuItem>
+                </Select>
+              )}
+            />
+          </div>
+
+          {/* <div className="flex">
             <div className="min-w-48 pt-20">
               <Icon color="action">note</Icon>
             </div>
@@ -315,7 +385,7 @@ function ContactDialog(props) {
                 />
               )}
             />
-          </div>
+          </div> */}
         </DialogContent>
 
         {contactDialog.type === 'new' ? (
