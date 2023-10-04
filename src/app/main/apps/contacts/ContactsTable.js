@@ -12,7 +12,10 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { useGlobalFilter, usePagination, useRowSelect, useSortBy, useTable } from 'react-table';
 import clsx from 'clsx';
 import ContactsTablePaginationActions from './ContactsTablePaginationActions';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@material-ui/core';
+
+import { removeContact } from './store/contactsSlice';
 
 const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
   const defaultRef = useRef();
@@ -30,6 +33,7 @@ const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
 });
 
 const EnhancedTable = ({ columns, data, onRowClick }) => {
+  const dispatch = useDispatch();
   const {
     getTableProps,
     headerGroups,
@@ -54,19 +58,11 @@ const EnhancedTable = ({ columns, data, onRowClick }) => {
         {
           id: 'Assigning',
           sortable: false,
-          // The header can use the table's getToggleAllRowsSelectedProps method
-          // to render a checkbox.  Pagination is a problem since this will select all
-          // rows even though not all rows are on the current page.  The solution should
-          // be server side pagination.  For one, the clients should not download all
-          // rows in most cases.  The client should only download data for the current page.
-          // In that case, getToggleAllRowsSelectedProps works fine.
           Header: ({ getToggleAllRowsSelectedProps }) => (
             <div>
               <h5>Assign/Unassign</h5>
             </div>
           ),
-          // The cell can use the individual row's getToggleRowSelectedProps method
-          // to the render a checkbox
           Cell: ({ cell }) => (
             <div>
               {/* <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} onClick={ev => ev.stopPropagation()} /> */}
@@ -83,26 +79,18 @@ const EnhancedTable = ({ columns, data, onRowClick }) => {
           {
             id: 'Edition',
             sortable: false,
-            // The header can use the table's getToggleAllRowsSelectedProps method
-            // to render a checkbox.  Pagination is a problem since this will select all
-            // rows even though not all rows are on the current page.  The solution should
-            // be server side pagination.  For one, the clients should not download all
-            // rows in most cases.  The client should only download data for the current page.
-            // In that case, getToggleAllRowsSelectedProps works fine.
             Header: ({ getToggleAllRowsSelectedProps }) => (
               <div>
                 <h5>Actions</h5>
               </div>
             ),
-            // The cell can use the individual row's getToggleRowSelectedProps method
-            // to the render a checkbox
             Cell: ({ cell }) => (
               <div>
                 {/* <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} onClick={ev => ev.stopPropagation()} /> */}
                 <Button variant="outlined" onClick={() => handleClick(cell)}>
                   Edit
                 </Button>
-                <Button variant="outlined" onClick={() => handleClick(cell)}>
+                <Button variant="outlined" onClick={() => dispatch(removeContact(cell.row.original.id))}>
                   Delete
                 </Button>
               </div>

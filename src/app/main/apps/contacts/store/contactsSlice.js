@@ -45,27 +45,29 @@ export const addContact = createAsyncThunk(
   }
 );
 
-// export const addContact = createAsyncThunk(
-//   'contactsApp/contacts/addContact',
-//   async (contact, { dispatch, getState }) => {
-//     var myHeaders = new Headers();
-//     myHeaders.append('Content-Type', 'application/json');
+export const removeContact = createAsyncThunk(
+  'contactsApp/contacts/removeContact',
+  async (carId, { dispatch, getState }) => {
+    let result = confirm('Are you sure?');
+    if (result) {
+      var raw = '';
 
-//     var raw = JSON.stringify(contact);
+      var requestOptions = {
+        method: 'DELETE',
+        body: raw,
+        redirect: 'follow'
+      };
+      fetch(`https://mysite-h17z.onrender.com/team2/api/vehicles/${carId}`, requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
 
-//     var requestOptions = {
-//       method: 'POST',
-//       headers: myHeaders,
-//       body: raw,
-//       redirect: 'follow'
-//     };
-
-//     fetch('https://mysite-h17z.onrender.com/team2/api/vehicles', requestOptions)
-//       .then(response => response.text())
-//       .then(result => console.log(result))
-//       .catch(error => console.log('error', error));
-//   }
-// );
+      return carId;
+    } else {
+      return;
+    }
+  }
+);
 
 // export const updateContact = createAsyncThunk(
 //   'contactsApp/contacts/updateContact',
@@ -76,15 +78,6 @@ export const addContact = createAsyncThunk(
 //     dispatch(getContacts());
 
 //     return data;
-//   }
-// );
-
-// export const removeContact = createAsyncThunk(
-//   'contactsApp/contacts/removeContact',
-//   async (contactId, { dispatch, getState }) => {
-//     await axios.post('/api/contacts-app/remove-contact', { contactId });
-
-//     return contactId;
 //   }
 // );
 
@@ -221,7 +214,7 @@ const contactsSlice = createSlice({
     [addContact.fulfilled]: contactsAdapter.addOne,
     //[addVehicle.fulfilled]: vehicleAdapter.addOne,
     // [removeContacts.fulfilled]: (state, action) => contactsAdapter.removeMany(state, action.payload),
-    // [removeContact.fulfilled]: (state, action) => contactsAdapter.removeOne(state, action.payload),
+    [removeContact.fulfilled]: (state, action) => contactsAdapter.removeOne(state, action.payload),
     [getVehicles.fulfilled]: (state, action) => {
       const { data, routeParams } = action.payload;
       contactsAdapter.setAll(state, data);
