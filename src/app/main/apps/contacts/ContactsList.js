@@ -9,11 +9,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import ContactsMultiSelectMenu from './ContactsMultiSelectMenu';
 import ContactsTable from './ContactsTable';
 // import { removeContact, toggleStarredContact } from './store/contactsSlice';
-import { openEditContactDialog, selectContacts, openNewContactDialog } from './store/contactsSlice';
+import {
+  openEditContactDialog,
+  selectContacts,
+  openNewContactDialog,
+  updateContact,
+  openAssignContactDialog
+} from './store/contactsSlice';
 import { Button } from '@material-ui/core';
 import { DragHandle } from '@material-ui/icons';
 import { hasBgRendering } from '@fullcalendar/react';
 import VehicleModal from './VehicleModal';
+import { removeContact } from './store/contactsSlice';
+// import { updateContact } from './store/contactsSlice';
 
 const formatData = vehicles =>
   vehicles.map(vehicle => {
@@ -57,10 +65,35 @@ function ContactsList(props) {
       //   width: 64,
       //   sortable: false
       // },
-      // {
-      //   Header: 'Assign/Unassign',
-      //   className: 'font-medium'
-      // },
+      {
+        Header: 'Assign/Unassign',
+        className: 'font-medium',
+        Cell: ({ cell }) => {
+          // return <button>{cell.row.original.id}</button>;
+          return (
+            <Button variant="contained" onClick={ev => dispatch(openAssignContactDialog(cell.row.original))}>
+              Assign/Unassign
+            </Button>
+          );
+        }
+      },
+      {
+        Header: 'Actions',
+        className: 'font-medium',
+
+        Cell: ({ cell }) => {
+          return (
+            <div>
+              <Button variant="contained" onClick={() => dispatch(removeContact(cell.row.original.id))}>
+                Delete
+              </Button>
+              <Button variant="contained" onClick={ev => dispatch(openEditContactDialog(cell.row.original))}>
+                Update
+              </Button>
+            </div>
+          );
+        }
+      },
       {
         Header: 'Brand',
         accessor: 'brand',
@@ -79,11 +112,19 @@ function ContactsList(props) {
         sortable: true
       },
       {
-        accessorFn: row => `${row.first_name} ${row.last_name}`,
+        accessor: 'driver.first_name',
         id: 'driver',
         Header: 'Driver',
-        sortable: true
-        // accessor: `driver.first_name, driver.last_name`
+        className: 'font-medium',
+        // sortable: true,
+        Cell: ({ cell }) => {
+          return (
+            <div>
+              <span>{cell.row.original?.driver?.first_name} </span>
+              <span>{cell.row.original?.driver?.last_name}</span>
+            </div>
+          );
+        }
       }
     ],
     // eslint-disable-next-line

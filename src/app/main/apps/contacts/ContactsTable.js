@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@material-ui/core';
 
 import { removeContact } from './store/contactsSlice';
+import { updateContact } from './store/contactsSlice';
 
 const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
   const defaultRef = useRef();
@@ -52,53 +53,7 @@ const EnhancedTable = ({ columns, data, onRowClick }) => {
     useSortBy,
     usePagination,
     useRowSelect,
-    hooks => {
-      hooks.allColumns.push(_columns => [
-        // Let's make a column for selection
-        {
-          id: 'Assigning',
-          sortable: false,
-          Header: ({ getToggleAllRowsSelectedProps }) => (
-            <div>
-              <h5>Assign/Unassign</h5>
-            </div>
-          ),
-          Cell: ({ cell }) => (
-            <div>
-              {/* <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} onClick={ev => ev.stopPropagation()} /> */}
-              <Button variant="contained" onClick={() => handleClick(cell)}>
-                Assign/Unassign
-              </Button>
-            </div>
-          )
-        },
-        ..._columns
-      ]),
-        hooks.allColumns.push(_columns => [
-          // Let's make a column for selection
-          {
-            id: 'Edition',
-            sortable: false,
-            Header: ({ getToggleAllRowsSelectedProps }) => (
-              <div>
-                <h5>Actions</h5>
-              </div>
-            ),
-            Cell: ({ cell }) => (
-              <div>
-                {/* <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} onClick={ev => ev.stopPropagation()} /> */}
-                <Button variant="outlined" onClick={() => handleClick(cell)}>
-                  Edit
-                </Button>
-                <Button variant="outlined" onClick={() => dispatch(removeContact(cell.row.original.id))}>
-                  Delete
-                </Button>
-              </div>
-            )
-          },
-          ..._columns
-        ]);
-    }
+    hooks => {}
   );
 
   const handleChangePage = (event, newPage) => {
@@ -110,7 +65,7 @@ const EnhancedTable = ({ columns, data, onRowClick }) => {
   };
 
   const handleClick = cell => {
-    console.log(cell.row.original.id);
+    // console.log(cell.row.original.id);
   };
 
   // Render the UI for your table
