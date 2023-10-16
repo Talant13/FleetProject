@@ -12,6 +12,7 @@ import reducer from './store';
 import { getVehicles } from './store/contactsSlice';
 import { Button } from '@material-ui/core';
 import AssignDialog from './AssignDialog';
+import UnassignDialog from './UnassignDialog';
 // import { getUserData } from './store/userSlice';
 
 function ContactsApp(props) {
@@ -50,6 +51,7 @@ function ContactsApp(props) {
       />
       <ContactDialog />
       <AssignDialog />
+      <UnassignDialog />
     </>
   );
 }

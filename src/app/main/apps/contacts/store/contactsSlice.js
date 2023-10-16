@@ -67,15 +67,46 @@ export const assignVehicle = createAsyncThunk(
 
     fetch(`https://mysite-h17z.onrender.com/team2/api/vehicles/${car.id}/assign`, requestOptions)
       .then(response => response.text())
-      .then(result => console.log(result))
+      .then(result => dispatch(getVehicles()))
       .catch(error => console.log('error', error));
 
     // const response = await axios.post('https://mysite-h17z.onrender.com/team2/api/assign/', contact);
     // const data = await response.data;
 
-    dispatch(getVehicles());
+    // dispatch(getVehicles());
 
     return data;
+  }
+);
+
+export const unassignVehicle = createAsyncThunk(
+  'contactsApp/contacts/addContact',
+  async (car, { dispatch, getState }) => {
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+
+    const raw = JSON.stringify({
+      assignment_id: car.active_assignment.id,
+      assignment: {
+        end_odometer: car.ending_odometer,
+        end_date: car.updated_at,
+        end_comment: car.end_comment
+      }
+    });
+
+    const requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch(`https://mysite-h17z.onrender.com/team2/api/vehicles/${car.id}/unassign`, requestOptions)
+      .then(response => response.text())
+      .then(result => dispatch(getVehicles()))
+      .catch(error => console.log('error', error));
+
+    //dispatch(getVehicles());
   }
 );
 
@@ -207,6 +238,13 @@ const contactsSlice = createSlice({
         open: false
       },
       data: null
+    },
+    unassignDialog: {
+      type: 'unassign',
+      props: {
+        open: false
+      },
+      data: null
     }
   }),
   reducers: {
@@ -261,6 +299,24 @@ const contactsSlice = createSlice({
         data: null
       };
     },
+    openUnassignContactDialog: (state, action) => {
+      state.unassignDialog = {
+        type: 'unassign',
+        props: {
+          open: true
+        },
+        data: action.payload
+      };
+    },
+    closeUnassignContactDialog: (state, action) => {
+      state.unassignDialog = {
+        type: 'unassign',
+        props: {
+          open: false
+        },
+        data: null
+      };
+    },
     closeEditContactDialog: (state, action) => {
       state.contactDialog = {
         type: 'edit',
@@ -275,6 +331,7 @@ const contactsSlice = createSlice({
     [updateContact.fulfilled]: contactsAdapter.upsertOne,
     [addContact.fulfilled]: contactsAdapter.addOne,
     [assignVehicle.fulfilled]: contactsAdapter.addOne,
+    [unassignVehicle.fulfilled]: (state, action) => contactsAdapter.removeOne(state, action.payload),
     //[addVehicle.fulfilled]: vehicleAdapter.addOne,
     // [removeContacts.fulfilled]: (state, action) => contactsAdapter.removeMany(state, action.payload),
     // [getDrivers.fulfilled]: (state, action),
@@ -295,7 +352,9 @@ export const {
   openEditContactDialog,
   closeEditContactDialog,
   openAssignContactDialog,
-  closeAssignContactDialog
+  closeAssignContactDialog,
+  openUnassignContactDialog,
+  closeUnassignContactDialog
 } = contactsSlice.actions;
 
 export default contactsSlice.reducer;

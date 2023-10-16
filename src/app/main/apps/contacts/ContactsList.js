@@ -14,7 +14,8 @@ import {
   selectContacts,
   openNewContactDialog,
   updateContact,
-  openAssignContactDialog
+  openAssignContactDialog,
+  openUnassignContactDialog
 } from './store/contactsSlice';
 import { Button } from '@material-ui/core';
 import { DragHandle } from '@material-ui/icons';
@@ -70,9 +71,17 @@ function ContactsList(props) {
         className: 'font-medium',
         Cell: ({ cell }) => {
           // return <button>{cell.row.original.id}</button>;
-          return (
-            <Button variant="contained" onClick={ev => dispatch(openAssignContactDialog(cell.row.original))}>
-              Assign/Unassign
+          return cell.row.original.driver ? (
+            <Button variant="contained" onClick={ev => dispatch(openUnassignContactDialog(cell.row.original))}>
+              Unassign
+            </Button>
+          ) : (
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={ev => dispatch(openAssignContactDialog(cell.row.original))}
+            >
+              Assign
             </Button>
           );
         }

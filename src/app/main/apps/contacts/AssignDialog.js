@@ -69,7 +69,7 @@ function AssignDialog(props) {
   };
   useEffect(() => {
     fetchData();
-    console.log(listDrivers);
+    // console.log(listDrivers);
   }, [assignDialog.props.open]);
 
   const { control, watch, reset, handleSubmit, formState, getValues } = useForm({
@@ -159,7 +159,7 @@ function AssignDialog(props) {
       <AppBar position="static" elevation={0}>
         <Toolbar className="flex w-full">
           <Typography variant="subtitle1" color="inherit">
-            {assignDialog.type === 'assign' ? 'Assign' : 'Edit Contact'}
+            {assignDialog.type === 'assign' ? 'Assign' : 'Assign'}
           </Typography>
         </Toolbar>
       </AppBar>
