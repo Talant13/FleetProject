@@ -11,6 +11,8 @@ import ContactsList from './ContactsList';
 import reducer from './store';
 import { getVehicles } from './store/contactsSlice';
 import { Button } from '@material-ui/core';
+import AssignDialog from './AssignDialog';
+import UnassignDialog from './UnassignDialog';
 // import { getUserData } from './store/userSlice';
 
 function ContactsApp(props) {
@@ -23,6 +25,13 @@ function ContactsApp(props) {
     dispatch(getVehicles(routeParams));
     // dispatch(getUserData());
   }, [dispatch, routeParams]);
+
+  dispatch(getVehicles())
+    .then(result => {
+      // console.log(result.payload.data);
+    })
+    .catch(console.error);
+
   return (
     <>
       <FusePageSimple
@@ -41,6 +50,8 @@ function ContactsApp(props) {
         innerScroll
       />
       <ContactDialog />
+      <AssignDialog />
+      <UnassignDialog />
     </>
   );
 }

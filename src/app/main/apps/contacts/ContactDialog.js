@@ -23,7 +23,7 @@ import * as yup from 'yup';
 
 import {
   // removeContact,
-  // updateContact,
+  updateContact,
   addContact,
   closeNewContactDialog,
   closeEditContactDialog
@@ -77,6 +77,7 @@ function ContactDialog(props) {
      */
     if (contactDialog.type === 'edit' && contactDialog.data) {
       reset({ ...contactDialog.data });
+      // console.log({ ...contactDialog.data }, '<<<<<<<<<<');
     }
 
     /**
@@ -112,7 +113,7 @@ function ContactDialog(props) {
    */
   function onSubmit(data) {
     if (contactDialog.type === 'new') {
-      console.log(data);
+      // console.log(data);
       dispatch(addContact(data));
     } else {
       dispatch(updateContact({ ...contactDialog.data, ...data }));
