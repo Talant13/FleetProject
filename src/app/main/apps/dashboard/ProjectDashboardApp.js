@@ -2,6 +2,7 @@ import FusePageSimple from '@fuse/core/FusePageSimple';
 import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 import Tab from '@material-ui/core/Tab';
+// import FuseUtils from '@fuse/utils';
 import Tabs from '@material-ui/core/Tabs';
 import withReducer from 'app/store/withReducer';
 import _ from '@lodash';
@@ -79,7 +80,7 @@ function ProjectDashboardApp(props) {
           {tabValue === 2 && <TeamMembersTab />} */}
         </div>
       }
-      rightSidebarContent={<ProjectDashboardAppSidebar />}
+      //rightSidebarContent={<ProjectDashboardAppSidebar />}
       ref={pageLayout}
     />
   );

@@ -2,8 +2,9 @@ import { createEntityAdapter, createSlice, createAsyncThunk } from '@reduxjs/too
 import axios from 'axios';
 
 export const getWidgets = createAsyncThunk('projectDashboardApp/widgets/getWidgets', async () => {
-  const response = await axios.get('/api/project-dashboard-app/widgets');
-  const data = await response.data;
+  //const response = await axios.get('/api/project-dashboard-app/widgets');
+  const response = await axios.get('https://mysite-h17z.onrender.com/team2/api/dashboard');
+  const data = await response;
 
   return data;
 });
