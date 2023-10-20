@@ -39,9 +39,10 @@ export const addContact = createAsyncThunk(
     const response = await axios.post('https://mysite-h17z.onrender.com/team2/api/vehicles/', contact);
     const data = await response.data;
 
-    dispatch(getVehicles());
+    //dispatch(getVehicles());
 
-    return data;
+    //console.log(data);
+    return { data };
   }
 );
 
@@ -325,11 +326,21 @@ const contactsSlice = createSlice({
         },
         data: null
       };
+    },
+    addTodo: {
+      reducer(state, action) {
+        // Add the new item to the beginning of the state array
+        state.ids = [action.payload.id, ...state.ids];
+        state.entities[action.payload.id] = action.payload;
+      },
+      prepare(text) {
+        return { payload: { id: nanoid(), text } };
+      }
     }
   },
   extraReducers: {
     [updateContact.fulfilled]: contactsAdapter.upsertOne,
-    [addContact.fulfilled]: contactsAdapter.addOne,
+    [addContact.fulfilled]: (state, action) => contactsAdapter.addOne(state, action.payload),
     [assignVehicle.fulfilled]: contactsAdapter.addOne,
     [unassignVehicle.fulfilled]: (state, action) => contactsAdapter.removeOne(state, action.payload),
     //[addVehicle.fulfilled]: vehicleAdapter.addOne,
