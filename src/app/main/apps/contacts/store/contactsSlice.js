@@ -42,7 +42,7 @@ export const addContact = createAsyncThunk(
     //dispatch(getVehicles());
 
     //console.log(data);
-    return { data };
+    return data;
   }
 );
 
@@ -326,21 +326,13 @@ const contactsSlice = createSlice({
         },
         data: null
       };
-    },
-    addTodo: {
-      reducer(state, action) {
-        // Add the new item to the beginning of the state array
-        state.ids = [action.payload.id, ...state.ids];
-        state.entities[action.payload.id] = action.payload;
-      },
-      prepare(text) {
-        return { payload: { id: nanoid(), text } };
-      }
     }
   },
   extraReducers: {
     [updateContact.fulfilled]: contactsAdapter.upsertOne,
-    [addContact.fulfilled]: (state, action) => contactsAdapter.addOne(state, action.payload),
+    [addContact.fulfilled]: (state, action) => {
+      contactsAdapter.addOne(state, action.payload);
+    },
     [assignVehicle.fulfilled]: contactsAdapter.addOne,
     [unassignVehicle.fulfilled]: (state, action) => contactsAdapter.removeOne(state, action.payload),
     //[addVehicle.fulfilled]: vehicleAdapter.addOne,
